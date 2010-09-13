@@ -17,7 +17,7 @@ LIB('awesomeTools', {
   // you can specify any other settings you like, and the user may override them elsewhere
   option1: 'blue',
   option2: 100,
-  exposeLocals: false
+  exposeLocals: false,
 
   // the attachTo property is handled specially by LIB
   // if set to object, your library will be attached to that object
@@ -25,26 +25,25 @@ LIB('awesomeTools', {
   // from global scope where the parent object can be found
   // By default, it is attached to the global object
   // In this example, awesome_tools will act as a jQuery plugin
-  attachTo: 'jQuery',
+  attachTo: 'jQuery'
 
 }, function(libConfig){
 
   // This anonymous function scope provides you a local namespace that will not pollute the global one
   var a=1, b=2, c=3;
 
-
   // However, to help manage private local variables, LIB also provides a _VARS function
   // Putting things here rather than declaring them with as var statments allows turnkey
-  // debugging access of sensitive data as well as important properties that you would
+  // debugging access to sensitive data as well as important properties that you would
   // like to keep hidden because they are simply unsupported by your API
   var _ = _VARS({
     secretSauce: 'peanutButter',
   });
 
   // You can now define your library's public interface
-  // The methods of that object will have privilaged scope access to this anonymous function
+  // The methods of this object will have privilaged scope access to this anonymous function
   var myLibrary = {
-    handyTool: function(){...},
+    handyTool: function(){},
     usefulWidget: function(){
       // You can easily access your private variables using the "_." notation:
       return someRPC(_.secretSauce);
@@ -57,7 +56,7 @@ LIB('awesomeTools', {
     myLibrary._ = _;
   }
 
-  // the result returned from this function will be added to the whatever was provided in the attachTo property of libConfig
+  // the result returned from this function will be added the value at libConfig.attachTo[ libconfig.key || 'awesomeTools' ]
   return result;
 });
 
