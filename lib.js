@@ -1,5 +1,6 @@
 /*!
  * LIB JavaScript Library
+ * Version 1.0
  * http://github.com/marcusphillips/LIB
  *
  * Copyright 2010, Marcus Phillips
