@@ -1,12 +1,12 @@
 /*!
- * LIB JavaScript Library
- * http://github.com/marcusphillips/LIB
+ * MODULE JavaScript Library
+ * http://github.com/marcusphillips/MODULE
  *
  * Copyright 2010, Marcus Phillips
  * Dual licensed under the MIT or GPL Version 2 licenses.
  */
 
-var LIB = function(libraryName){
+var MODULE = function(moduleName){
   var defaultConfig, dependencies;
   if(arguments.length === 4){
     defaultConfig = arguments[1];
@@ -20,13 +20,13 @@ var LIB = function(libraryName){
   for(var key in defaultConfig){
     config[key] = defaultConfig[key];
   }
-  // if LIB.configure(libraryName) was called prior to library inclusion, those properties will mask the ones provided in the defaultConfigs object
-  for(key in LIB._configs[libraryName]){
-    config[key] = LIB._configs[libraryName][key];
+  // if MODULE.configure(moduleName) was called prior to module inclusion, those properties will mask the ones provided in the defaultConfigs object
+  for(key in MODULE._configs[moduleName]){
+    config[key] = MODULE._configs[moduleName][key];
   }
 
   if(typeof config.attachTo === 'undefined'){
-    // if nothing is specified, the library is placed in the global scope
+    // if nothing is specified, the module is placed in the global scope
     config.attachTo = (function(){return this;}());
   }else if(typeof config.attachTo === 'string'){
     // config.attachTo can be a string representing a path from the global scope
@@ -38,32 +38,32 @@ var LIB = function(libraryName){
     }
   }
 
-  // library key defaults to the library name
-  config.key = config.key || libraryName;
+  // module key defaults to the module name
+  config.key = config.key || moduleName;
 
   // todo allow dependencies, and provide thos libraries as the first args to the init function
   var args = [];
   args.push(config);
   // todo: provide feedback if overwriting
   config.attachTo[config.key] = init.apply({}, args);
-  LIB._hasInitialized[libraryName] = true;
+  MODULE._hasInitialized[moduleName] = true;
 };
 
-LIB.configure = function(libraryName, configuration){
-  if(LIB._hasInitialized[libraryName] && typeof console !== 'undefined'){
+MODULE.configure = function(moduleName, configuration){
+  if(MODULE._hasInitialized[moduleName] && typeof console !== 'undefined'){
     if(typeof console !== undefined && typeof console.warn === 'function'){
-      console.warn('You are trying to LIB.configure() the library '+libraryName+', which has already been initialized once');
+      console.warn('You are trying to MODULE.configure() the module '+moduleName+', which has already been initialized once');
     }
   }
-  LIB._configs[libraryName] = LIB._configs[libraryName] || {};
+  MODULE._configs[moduleName] = MODULE._configs[moduleName] || {};
   for(var key in configuration){
-    LIB._configs[libraryName][key] = configuration[key]
+    MODULE._configs[moduleName][key] = configuration[key]
   }
 };
 
-LIB._configs = {};
+MODULE._configs = {};
 
-LIB._hasInitialized = {};
+MODULE._hasInitialized = {};
 
 var _VARS = function(readAccess, writeAccess, keyAccess, values){
   if(typeof readAccess === 'object'){

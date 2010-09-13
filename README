@@ -1,6 +1,6 @@
-LIB helps me write robust, configrable JS libraries declaratively.  I incorporate any best practices for library creation that I find here, rather than leaving delicate, magical code in every library I write.
+MODULE helps me write robust, configrable JS libraries declaratively.  I incorporate any best practices for library and module creation that I find here, rather than leaving delicate, magical code in every library I write.
 
-Here's an example of how you can can use LIB:
+Here's an example of how you can can use MODULE:
 
 
 -------------------------------
@@ -11,28 +11,28 @@ Here's an example of how you can can use LIB:
 * My Awesome Tools
 * by Fabulous McGee
 */
-LIB('awesomeTools', {
+MODULE('awesomeTools', {
 
-  // Define your library's default configuration here.
+  // Define your module's default configuration here.
   // you can specify any other settings you like, and the user may override them elsewhere
   option1: 'blue',
   option2: 100,
   exposeLocals: false,
 
-  // the attachTo property is handled specially by LIB
-  // if set to object, your library will be attached to that object
+  // the attachTo property is handled specially by MODULE
+  // if set to object, your module will be attached to that object
   // if set to a string, the string will be interpreted as a path
   // from global scope where the parent object can be found
   // By default, it is attached to the global object
   // In this example, awesome_tools will act as a jQuery plugin
   attachTo: 'jQuery'
 
-}, function(libConfig){
+}, function(moduleConfig){
 
   // This anonymous function scope provides you a local namespace that will not pollute the global one
   var a=1, b=2, c=3;
 
-  // However, to help manage private local variables, LIB also provides a _VARS function
+  // However, to help manage private local variables, MODULE also provides a _VARS function
   // Putting things here rather than declaring them with as var statments allows turnkey
   // debugging access to sensitive data as well as important properties that you would
   // like to keep hidden because they are simply unsupported by your API
@@ -40,9 +40,9 @@ LIB('awesomeTools', {
     secretSauce: 'peanutButter',
   });
 
-  // You can now define your library's public interface
+  // You can now define your module's public interface
   // The methods of this object will have privilaged scope access to this anonymous function
-  var myLibrary = {
+  var myModule = {
     handyTool: function(){},
     usefulWidget: function(){
       // You can easily access your private variables using the "_." notation:
@@ -50,13 +50,13 @@ LIB('awesomeTools', {
     }
   }
 
-  // if you would like to provide access to the local variables, you can do so by augmenting the library with your _ object
-  // in this example, such behavior has been parameterized, to allow the original importer of the library exclusive control of this feature
-  if(libConfig.exposeLocals){
-    myLibrary._ = _;
+  // if you would like to provide access to the local variables, you can do so by augmenting the module with your _ object
+  // in this example, such behavior has been parameterized, to allow the original importer of the module exclusive control of this feature
+  if(moduleConfig.exposeLocals){
+    myModule._ = _;
   }
 
-  // the result returned from this function will be added the value at libConfig.attachTo[ libconfig.key || 'awesomeTools' ]
+  // the result returned from this function will be added the value at moduleConfig.attachTo[ moduleconfig.key || 'awesomeTools' ]
   return result;
 });
 
@@ -66,9 +66,9 @@ LIB('awesomeTools', {
 ### elsewhere/awesome_tools.config.js ###
 -----------------------------------------
 
-// Your library can be configured by the user without editing your source code, simply by calling LIB.configure()
-// any settings provided here will mask the ones defined in the call to LIB() at the top of awesome_tools.js
-LIB.configure('awesomeTools', {
+// Your module can be configured by the user without editing your source code, simply by calling MODULE.configure()
+// any settings provided here will mask the ones defined in the call to MODULE() at the top of awesome_tools.js
+MODULE.configure('awesomeTools', {
   option1: 'red',
   option2: 26
 });
